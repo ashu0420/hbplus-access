@@ -2,20 +2,24 @@ import { View, Text, Pressable, StyleSheet, ActivityIndicator } from 'react-nati
 import firebaseApp from '@/config/firebase';
 import { useState } from 'react';
 import { signInWithGoogle } from '@/auth/googleSignIn.web';
+import { useRouter } from 'expo-router';
 
 export default function LoginScreen() {
   // console.log('Firebase initialized:', firebaseApp.name);
+  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleGoogleLogin = async () => {
     setLoading(true);
     setError(null);
-
+    
     try {
       const user = await signInWithGoogle();
-
+      
       console.log('Authenticated user:', user.email);
+      router.replace('/dashboard');
     } catch (err) {
       setError(
         err instanceof Error ? err.message : 'Google login failed.'
