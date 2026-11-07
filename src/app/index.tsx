@@ -1,6 +1,8 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native';
+import firebaseApp from '@/config/firebase';
 
 export default function LoginScreen() {
+  console.log('Firebase initialized:', firebaseApp.name);
   return (
     <View style={styles.container}>
       <View style={styles.card}>
