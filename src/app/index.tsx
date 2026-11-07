@@ -1,8 +1,29 @@
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
 import firebaseApp from '@/config/firebase';
+import { useState } from 'react';
+import { signInWithGoogle } from '@/auth/googleSignIn.web';
 
 export default function LoginScreen() {
-  console.log('Firebase initialized:', firebaseApp.name);
+  // console.log('Firebase initialized:', firebaseApp.name);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const user = await signInWithGoogle();
+
+      console.log('Authenticated user:', user.email);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : 'Google login failed.'
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.card}>
@@ -14,11 +35,25 @@ export default function LoginScreen() {
           Sign in with your official account to continue.
         </Text>
 
-        <Pressable style={styles.googleButton}>
-          <Text style={styles.googleText}>
-            G    Continue with Google
-          </Text>
+        <Pressable
+          style={styles.googleButton}
+          onPress={handleGoogleLogin}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator />
+          ) : (
+            <Text style={styles.googleText}>
+              G    Continue with Google
+            </Text>
+          )}
         </Pressable>
+
+        {error && (
+          <Text style={{ color: 'red', textAlign: 'center' }}>
+            {error}
+          </Text>
+        )}
 
         <Text style={styles.footer}>
           Secure access for authorized members only.
