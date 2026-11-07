@@ -1,7 +1,7 @@
 import { View, Text, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
 import firebaseApp from '@/config/firebase';
 import { useState } from 'react';
-import { signInWithGoogle } from '@/auth/googleSignIn.web';
+import { signInWithGoogle } from '@/auth/googleSignIn';
 import { useRouter } from 'expo-router';
 
 export default function LoginScreen() {
