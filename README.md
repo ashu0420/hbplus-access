@@ -80,6 +80,12 @@ EXPO_PUBLIC_ALLOWED_EMAIL_DOMAIN=hbplus.fit
 ```
 
 Configure Firebase using your Firebase project credentials.
+EXPO_PUBLIC_FIREBASE_API_KEY=your-firebase-api-key
+EXPO_PUBLIC_FIREBASE_APP_ID=your-firebase-app-id
+EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=your-firebase-auth-domain
+EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
+EXPO_PUBLIC_FIREBASE_PROJECT_ID=your-firebase-project-id
+EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=your-firebase-storage-bucket
 
 ### 4. Start the application
 
