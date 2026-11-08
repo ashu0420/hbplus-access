@@ -4,6 +4,9 @@ A cross-platform application built using React Native and Expo, supporting Andro
 
 The application implements Google OAuth authentication and restricts access based on an allowed email domain using Firebase Authentication.
 
+**Live Demo:** https://hb-plus-assignment.netlify.app
+
+
 ## Features
 
 - Google Sign-In
