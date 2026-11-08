@@ -28,7 +28,7 @@ export default function DashboardScreen() {
     if (!user) {
         return <Redirect href="/" />;
     }
-
+    
     if (!isAllowedEmail(user.email)) {
         return <Redirect href="/" />;
     }

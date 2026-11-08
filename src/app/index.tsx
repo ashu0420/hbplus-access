@@ -1,5 +1,4 @@
 import { View, Text, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
-import firebaseApp from '@/config/firebase';
 import { useState } from 'react';
 import { Redirect, useRouter } from 'expo-router';
 import { useAuth } from '@/auth/useAuth';
