@@ -1,56 +1,173 @@
-# Welcome to your Expo app 👋
+# HB+ Access
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A cross-platform application built using React Native and Expo, supporting Android and Web.
 
-## Get started
+The application implements Google OAuth authentication and restricts access based on an allowed email domain using Firebase Authentication.
 
-1. Install dependencies
+## Features
 
-   ```bash
-   npm install
-   ```
+- Google Sign-In
+- Email domain validation
+- Protected dashboard
+- Persistent authentication
+- Logout functionality
+- Loading and error handling
+- Responsive mobile and web interface
 
-2. Start the app
+## Tech Stack
 
-   ```bash
-   npx expo start
-   ```
+- React Native
+- React Native Web
+- Expo
+- Expo Router
+- Firebase Authentication
+- Google OAuth 2.0
+- TypeScript
 
-In the output, you'll find options to open the app in a
+## Project Structure
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```text
+src/
+├── app/
+│   ├── index.tsx
+│   ├── dashboard.tsx
+│   └── _layout.tsx
+├── auth/
+│   ├── useAuth.ts
+│   ├── googleSignIn.ts
+│   ├── googleSignIn.native.ts
+│   └── googleSignIn.web.ts
+└── config/
+    ├── accessPolicy.ts
+    ├── auth.ts
+    ├── auth.native.ts
+    ├── auth.web.ts
+    └── firebase.ts
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+## Setup Instructions
 
-### Other setup steps
+### 1. Clone the repository
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+```bash
+git clone <repository-url>
+cd hbplus-access
+```
 
-## Learn more
+### 2. Install dependencies
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+npm install
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### 3. Configure environment variables
 
-## Join the community
+Create a `.env` file in the project root.
 
-Join our community of developers creating universal apps.
+```env
+EXPO_PUBLIC_ALLOWED_EMAIL_DOMAIN=your-allowed-domain
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Replace `your-allowed-domain` with the domain that should be authorized.
+
+Example:
+
+```env
+EXPO_PUBLIC_ALLOWED_EMAIL_DOMAIN=hbplus.fit
+```
+
+Configure Firebase using your Firebase project credentials.
+
+### 4. Start the application
+
+Start the Expo development server:
+
+```bash
+npx expo start
+```
+
+### 5. Run on Web
+
+```bash
+npx expo start --web
+```
+
+### 6. Run on Android
+
+Start the development server:
+
+```bash
+npx expo start --dev-client
+```
+
+Open the application in your configured Android development client.
+
+## Authentication Flow
+
+1. The user opens the application.
+2. The application checks the current Firebase authentication state.
+3. An authenticated and authorized user is redirected to the dashboard.
+4. An unauthenticated user sees the login page.
+5. The user clicks Continue with Google.
+6. Google OAuth authenticates the user.
+7. The application retrieves the user's email.
+8. The email domain is validated against the configured allowed domain.
+9. Authorized users are granted access to the dashboard.
+10. Unauthorized users receive an access restriction error.
+
+## Domain Restriction
+
+The application uses the configured email domain to determine whether a user is authorized.
+
+For example, if the allowed domain is:
+
+```text
+hbplus.fit
+```
+
+An email such as:
+
+```text
+user@hbplus.fit
+```
+
+is allowed.
+
+An email such as:
+
+```text
+user@gmail.com
+```
+
+is rejected.
+
+The domain validation is implemented in:
+
+```text
+src/config/accessPolicy.ts
+```
+
+The application checks authorization during Google Sign-In and before displaying protected dashboard content.
+
+## Protected Dashboard
+
+The dashboard is accessible only to authenticated users who satisfy the configured domain restriction.
+
+Unauthenticated users are redirected to the login page.
+
+Unauthorized users are not allowed to access the dashboard.
+
+The application also supports logout, which signs the user out of Firebase Authentication.
+
+## Platforms
+
+The application supports:
+
+- Android
+- Web
+
+The project uses React Native with Expo and Expo Router for cross-platform development.
+
+## Assignment
+
+This project was developed as part of an assignment to implement Google authentication, email domain restriction, protected routes, and cross-platform support using React Native.
