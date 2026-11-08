@@ -7,5 +7,6 @@ import app from './firebase';
 const auth = initializeAuth(app, {
     persistence: getReactNativePersistence(AsyncStorage),
 });
+console.log('Firebase Auth persistence:', auth);
 
 export default auth;

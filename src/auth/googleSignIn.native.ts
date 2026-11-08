@@ -1,8 +1,8 @@
 import {
     GoogleOneTapSignIn,
-    isSuccessResponse,
-    isNoSavedCredentialFoundResponse,
     isCancelledResponse,
+    isNoSavedCredentialFoundResponse,
+    isSuccessResponse,
 } from 'react-native-nitro-google-signin';
 
 import {
@@ -11,12 +11,12 @@ import {
     signOut,
 } from 'firebase/auth';
 
-import auth from '@/config/auth.native';
 import { isAllowedEmail } from '@/config/accessPolicy';
+import auth from '@/config/auth.native';
 
 // Configure Google Sign-In using Firebase configuration.
 GoogleOneTapSignIn.configure({
-    webClientId: 'autoDetect',
+    webClientId: '229320775846-8gqahefkbbp43ligpkg3t1cdutjvaa0l.apps.googleusercontent.com',
 });
 
 export async function signInWithGoogle() {
@@ -65,4 +65,4 @@ export async function signInWithGoogle() {
     }
 
     return result.user;
-  }
+}

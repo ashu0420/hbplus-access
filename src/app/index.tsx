@@ -1,15 +1,30 @@
 import { View, Text, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
 import firebaseApp from '@/config/firebase';
 import { useState } from 'react';
+import { Redirect, useRouter } from 'expo-router';
+import { useAuth } from '@/auth/useAuth';
 import { signInWithGoogle } from '@/auth/googleSignIn';
-import { useRouter } from 'expo-router';
 
 export default function LoginScreen() {
   // console.log('Firebase initialized:', firebaseApp.name);
   const router = useRouter();
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { user, loading: authLoading } = useAuth();
+
+  if (authLoading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" />
+        <Text>Checking authentication...</Text>
+      </View>
+    );
+  }
+
+  if (user) {
+    return <Redirect href="/dashboard" />;
+  }
+
 
   const handleGoogleLogin = async () => {
     setLoading(true);

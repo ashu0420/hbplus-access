@@ -2,7 +2,8 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useAuth } from '@/auth/useAuth';
 import { Redirect, useRouter } from 'expo-router';
 import { signOut } from 'firebase/auth';
-import auth from '@/config/auth.web';
+import auth from '@/config/auth';
+import { isAllowedEmail } from '@/config/accessPolicy';
 
 export default function DashboardScreen() {
     const router = useRouter();
@@ -14,7 +15,7 @@ export default function DashboardScreen() {
         } catch (error) {
             console.error('Logout failed:', error);
         }
-    };
+      };
     const { user, loading } = useAuth();
 
     if (loading) {
@@ -26,7 +27,11 @@ export default function DashboardScreen() {
     }
     if (!user) {
         return <Redirect href="/" />;
-      }
+    }
+
+    if (!isAllowedEmail(user.email)) {
+        return <Redirect href="/" />;
+    }
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Welcome to HBPlus!</Text>
@@ -57,5 +62,5 @@ const styles = StyleSheet.create({
         paddingHorizontal: 24,
         paddingVertical: 12,
         borderRadius: 8,
-      },
+    },
 });
