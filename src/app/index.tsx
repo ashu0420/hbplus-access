@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Redirect, useRouter } from 'expo-router';
 import { useAuth } from '@/auth/useAuth';
 import { signInWithGoogle } from '@/auth/googleSignIn';
+import { isAllowedEmail } from '@/config/accessPolicy';
 
 export default function LoginScreen() {
   // console.log('Firebase initialized:', firebaseApp.name);
@@ -21,9 +22,9 @@ export default function LoginScreen() {
     );
   }
 
-  if (user) {
+ if (user && isAllowedEmail(user.email)) {
     return <Redirect href="/dashboard" />;
-  }
+}
 
 
   const handleGoogleLogin = async () => {

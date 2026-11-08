@@ -8,7 +8,7 @@ export function useAuth() {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            console.log('Firebase restored user:', currentUser?.email ?? 'No user');
+            // console.log('Firebase restored user:', currentUser?.email ?? 'No user');
             setUser(currentUser);
             setLoading(false);
         });
