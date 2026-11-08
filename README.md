@@ -136,7 +136,7 @@ is allowed.
 An email such as:
 
 ```text
-user@gmail.com
+user@outlook.com
 ```
 
 is rejected.
