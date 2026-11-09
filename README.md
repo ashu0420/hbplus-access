@@ -69,9 +69,18 @@ Create a `.env` file in the project root.
 
 ```env
 EXPO_PUBLIC_ALLOWED_EMAIL_DOMAIN=your-allowed-domain
+
+EXPO_PUBLIC_FIREBASE_API_KEY=your-firebase-api-key
+EXPO_PUBLIC_FIREBASE_APP_ID=your-firebase-app-id
+EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=your-firebase-auth-domain
+EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
+EXPO_PUBLIC_FIREBASE_PROJECT_ID=your-firebase-project-id
+EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=your-firebase-storage-bucket
 ```
 
-Replace `your-allowed-domain` with the domain that should be authorized.
+Replace the placeholder values with your Firebase project configuration.
+
+The allowed email domain is configurable through `EXPO_PUBLIC_ALLOWED_EMAIL_DOMAIN`.
 
 Example:
 
@@ -79,13 +88,7 @@ Example:
 EXPO_PUBLIC_ALLOWED_EMAIL_DOMAIN=hbplus.fit
 ```
 
-Configure Firebase using your Firebase project credentials.
-EXPO_PUBLIC_FIREBASE_API_KEY=your-firebase-api-key
-EXPO_PUBLIC_FIREBASE_APP_ID=your-firebase-app-id
-EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=your-firebase-auth-domain
-EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
-EXPO_PUBLIC_FIREBASE_PROJECT_ID=your-firebase-project-id
-EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=your-firebase-storage-bucket
+The application uses this configuration to determine which email domains are authorized to access the dashboard.
 
 ### 4. Start the application
 
@@ -126,31 +129,33 @@ Open the application in your configured Android development client.
 
 ## Domain Restriction
 
-The application uses the configured email domain to determine whether a user is authorized.
+The application uses a configurable email domain to determine whether a user is authorized to access the dashboard.
 
-For example, if the allowed domain is:
+The allowed domain is configured through:
 
-```text
-hbplus.fit
+```env
+EXPO_PUBLIC_ALLOWED_EMAIL_DOMAIN=your-allowed-domain
 ```
 
-An email such as:
+For example:
 
-```text
-user@hbplus.fit
+```env
+EXPO_PUBLIC_ALLOWED_EMAIL_DOMAIN=hbplus.fit
 ```
 
-is allowed.
+If the configured domain is `hbplus.fit`:
 
-An email such as:
+| Email | Result |
+|---|---|
+| `user@hbplus.fit` | Access allowed |
+| `user@gmail.com` | Access denied |
+| `user@outlook.com` | Access denied |
 
-```text
-user@outlook.com
-```
+Google OAuth authenticates the user, while the application separately validates the user's email domain.
 
-is rejected.
+Users with unauthorized email domains receive an access restriction error and cannot access the protected dashboard.
 
-The domain validation is implemented in:
+The domain validation logic is implemented in:
 
 ```text
 src/config/accessPolicy.ts
@@ -167,6 +172,22 @@ Unauthenticated users are redirected to the login page.
 Unauthorized users are not allowed to access the dashboard.
 
 The application also supports logout, which signs the user out of Firebase Authentication.
+
+## Testing
+
+The application was tested using a personal Google account to verify Google Authentication and domain restriction.
+
+When the configured allowed domain is:
+
+```env
+EXPO_PUBLIC_ALLOWED_EMAIL_DOMAIN=hbplus.fit
+```
+
+A personal Gmail account can authenticate through Google OAuth, but access to the dashboard is denied because its email domain does not match the configured domain.
+
+The application displays an access restriction error for unauthorized users.
+
+The Android and Web authentication flows were tested.
 
 ## Platforms
 
